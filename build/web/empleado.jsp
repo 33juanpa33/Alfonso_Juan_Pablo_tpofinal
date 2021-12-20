@@ -15,13 +15,7 @@
     </head>
 
     <body>
-        <%
-            HttpSession sesion = request.getSession();
-            String usu = (String) sesion.getAttribute("usuarioActivo");
-            if (usu == null) {
-                response.sendRedirect("login.jsp");
-            } else {
-        %>
+        
         <div class="tm-container">
             <div class="tm-site-header"></div> <!-- tm-site-header -->
             <div class="tm-site-header-overlay">
@@ -165,6 +159,5 @@
             });
 
         </script>
-    <% } %>
     </body>
 </html>

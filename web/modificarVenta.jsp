@@ -94,7 +94,7 @@
                 <!--Intro-->
                 <section class="row tm-mb-1">
                     <div class="col-12 text-center mx-auto tm-about-box">
-                        <h2 class="tm-text-primary tm-my-1 tm-mb-5 tm-intro-text">Alta Venta</h2>
+                        <h2 class="tm-text-primary tm-my-1 tm-mb-5 tm-intro-text">Modificar Venta</h2>
                     </div>
                 </section>
                 <div class="row tm-mb-10 tm-contact-row mx-auto">
@@ -125,26 +125,46 @@
                                     <% String fecha = String.format("%1$tY-%1$tm-%1$td", venta.getFecha_venta());%>
                                     <label>Fecha de venta: </label><input type="date" name="fecha" value="<%=fecha%>" class="form-control rounded-0" required="" />
                                 </div>
+
                                 <div class="form-group">
                                     <label>Empleado: </label>
                                     <select class="form-control" id="contact-select" name="empleado" placeholder="Seleccione" required="">
                                         <option value="">(Seleccione)</option>
                                         <% List<Empleado> listaEmple = (List) misession.getAttribute("listaEmpleados");
                                             for (Empleado emple : listaEmple) {%>
-                                        <option value="<%=emple.getId_empleado()%>" <% if (venta.getUnEmpleado().getId_empleado().equals(emple.getId_empleado())) {%>
-                                                <%="selected"%> <% }%> ><%=emple.getNombre() + " - " + emple.getApellido() + " - DNI: " + emple.getDni()%></option> <% } %>
+                                        <option value="<%=emple.getId_empleado()%>" 
+
+                                                <% try {
+                                                        if (venta.getUnEmpleado().getId_empleado().equals(emple.getId_empleado())) {%> <%="selected"%> <% }%>
+                                                <% } catch (Exception e) {
+                                                    }%>
+
+                                                ><%=emple.getNombre() + " - " + emple.getApellido() + " - DNI: " + emple.getDni()%></option> <% } %>
+
+
                                     </select>
                                 </div>
+
                                 <div class="form-group">
                                     <label>Cliente: </label>
                                     <select class="form-control" id="contact-select" name="cliente" placeholder="Seleccione" required="">
                                         <option value="">(Seleccione)</option>
                                         <% List<Cliente> listaCli = (List) misession.getAttribute("listaClientes");
                                             for (Cliente cli : listaCli) {%>
-                                        <option value="<%=cli.getId_cliente()%>" <% if (venta.getUnCliente().getId_cliente().equals(cli.getId_cliente())) {%>
-                                                <%="selected"%> <% }%> ><%=cli.getNombre() + " - " + cli.getApellido() + " - DNI: " + cli.getDni()%></option> <% } %>
+                                        <option value="<%=cli.getId_cliente()%>"
+
+                                                <% try {
+                                                        if (venta.getUnCliente().getId_cliente().equals(cli.getId_cliente())) {%> <%="selected"%> <% }%>
+                                                <% } catch (Exception e) {
+                                                    }%>
+
+                                                ><%=cli.getNombre() + " - " + cli.getApellido() + " - DNI: " + cli.getDni()%></option> <% } %>
                                     </select>
                                 </div>
+
+
+
+
                                 <div class="form-group">
                                     <p>Seleccione un Paquete o un Servicio: </p>
                                     <p>------------ Servicios Disponibles: ------------</p>
@@ -152,9 +172,10 @@
                                         List<Paquete_turistico> listaPaq = (List) misession.getAttribute("listaPaquetes");
                                         for (Servicio serv : listaServ) {%>
                                     <label>
-                                           <input type="checkbox" name="codigo" value="<%=serv.getCodigo()%>" <%
-                                               if (venta.getUnServicio() != null) {
-                                               if (serv.getCodigo().equals(venta.getUnServicio().getCodigo())) { %>checked <% } } %> >
+                                        <input type="checkbox" name="codigo" value="<%=serv.getCodigo()%>" <%
+                                            if (venta.getUnServicio() != null) {
+                                                if (serv.getCodigo().equals(venta.getUnServicio().getCodigo())) { %>checked <% }
+                                                    } %> >
                                         <% String fechaSer = String.format("%1$td-%1$tm-%1$tY", serv.getFecha());%>
                                         Servicio: <%=" - "%> <%=serv.getNombre() + " - " + serv.getDescripcion() + " - " + fechaSer + " - $" + serv.getCosto() + " -Codigo del servicio: " + serv.getCodigo()%>
                                     </label>
@@ -163,16 +184,17 @@
                                     <% for (Paquete_turistico paq : listaPaq) {%>
                                     <label>
                                         <input type="checkbox" name="codigo" value="<%=paq.getCodigo()%>" <%
-                                            if (venta.getUnPaquete()!= null) {
-                                            if (paq.getCodigo().equals(venta.getUnPaquete().getCodigo())) { %>checked <% } }%> >
+                                            if (venta.getUnPaquete() != null) {
+                                                if (paq.getCodigo().equals(venta.getUnPaquete().getCodigo())) { %>checked <% }
+                                                    }%> >
                                         Paquete: <%=" - Codigo "%> <%=paq.getCodigo() + " - $ " + paq.getCosto_paquete()%> Servicios:<br>
                                         <% for (Servicio ser : paq.getListaServicios()) {%> <%=" - " + ser.getNombre() + ", " + ser.getDescripcion() + ", " + String.format("%1$td-%1$tm-%1$tY", ser.getFecha()) + ", Destino: " + ser.getDestino()%> <br> <% }; %>
                                     </label>
                                     <br>
-                                    <% }; %>
+                                    <% };%>
 
                                 </div>
-                                <input type="hidden" name="numeroVenta" value="<%=venta.getNum_venta() %>">
+                                <input type="hidden" name="numeroVenta" value="<%=venta.getNum_venta()%>">
                                 <div class="form-group mb-0">
                                     <button type="submit" class="btn btn-3 rounded-0 d-block ml-auto">Modificar Venta</button>
                                 </div>

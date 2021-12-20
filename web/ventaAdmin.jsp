@@ -12,7 +12,7 @@
         <link href="css/empleadoAdmin.css" rel="stylesheet" />
     </head>
     <body>
-        
+
         <div class="container">
             <table>
                 <thead>
@@ -29,7 +29,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <% HttpSession misession = request.getSession();
+                    <%  HttpSession misession = request.getSession();
                         List<Venta> listaVentas = (List) misession.getAttribute("listaVentas");
 
                         for (Venta venta : listaVentas) { %>
@@ -40,9 +40,17 @@
                         <td> <%=pago%> </td>
                         <% String fecha = String.format("%1$td/%1$tm/%1$tY", venta.getFecha_venta());%>
                         <td> <%=fecha%> </td>
-                        <td> <%=venta.getUnEmpleado().getNombre()%>&nbsp;<%=venta.getUnEmpleado().getApellido()%><br>DNI:&nbsp;<%=venta.getUnEmpleado().getDni()%> </td>
-                        <td> <%=venta.getUnCliente().getNombre()%>&nbsp;<%=venta.getUnCliente().getApellido()%><br>DNI:&nbsp;<%=venta.getUnCliente().getDni()%> </td>
-                            <% if (venta.getUnServicio() != null) {%>
+
+
+                        <td> <% try {%> <%=venta.getUnEmpleado().getNombre()%>&nbsp;<%=venta.getUnEmpleado().getApellido()%><br>DNI:&nbsp;<%=venta.getUnEmpleado().getDni()%> 
+                            <% } catch (Exception e) {%> <%="(Empleado borrado)"%> <% }%>
+                        </td>
+
+                        <td> <% try {%> <%=venta.getUnCliente().getNombre()%>&nbsp;<%=venta.getUnCliente().getApellido()%><br>DNI:&nbsp;<%=venta.getUnCliente().getDni()%>
+                            <% } catch (Exception e) {%> <%="(Cliente borrado)"%> <% }%>
+                        </td>
+
+                        <% if (venta.getUnServicio() != null) {%>
                         <td> <%=venta.getUnServicio().getNombre()%> - <%=venta.getUnServicio().getDescripcion()%> - Destino: <%=venta.getUnServicio().getDestino()%> Fecha: &nbsp;<%=String.format("%1$td/%1$tm/%1$tY", venta.getUnServicio().getFecha())%> </td>
                         <% } else {%> <td> - </td> <% } %>
                         <% if (venta.getUnPaquete() != null) {%>
@@ -76,6 +84,6 @@
                 </a>
             </div>
         </div>
-        
+
     </body>
 </html>
